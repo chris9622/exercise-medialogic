@@ -1,6 +1,6 @@
 package com.medialogic.data_extractor.exception;
 
-public class InvalidFiscalCodeException extends RuntimeException {
+public class InvalidFiscalCodeException extends Exception {
     
     public InvalidFiscalCodeException(String message) {
         super(message);

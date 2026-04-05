@@ -26,7 +26,7 @@ public class FiscalCodeService {
             Map.entry('T', 12)
     );
 
-    public FiscalCodeResponse extractDataFromFiscalCode(String fiscalCode) {
+    public FiscalCodeResponse extractDataFromFiscalCode(String fiscalCode) throws InvalidFiscalCodeException {
 
         if (fiscalCode == null || fiscalCode.isBlank()) {
             throw new InvalidFiscalCodeException("Il codice fiscale non può essere vuoto");
@@ -60,7 +60,7 @@ public class FiscalCodeService {
     }
 
 
-    private void validateFiscalCode(String cf) {
+    private void validateFiscalCode(String cf) throws InvalidFiscalCodeException {
 
         if (cf.length() != 16) {
             throw new InvalidFiscalCodeException("Il codice fiscale deve essere lungo 16 caratteri");
@@ -76,7 +76,7 @@ public class FiscalCodeService {
         checkLetter(cf.charAt(15), "Carattere di controllo");
     }
 
-    private void checkLetters(String cf, int start, int end, String field) {
+    private void checkLetters(String cf, int start, int end, String field) throws InvalidFiscalCodeException {
         for (int i = start; i < end; i++) {
             if (!Character.isUpperCase(cf.charAt(i))) {
                 throw new InvalidFiscalCodeException(
@@ -86,13 +86,13 @@ public class FiscalCodeService {
         }
     }
 
-    private void checkLetter(char c, String field) {
+    private void checkLetter(char c, String field) throws InvalidFiscalCodeException {
         if (!Character.isUpperCase(c)) {
             throw new InvalidFiscalCodeException(field + " deve essere una lettera maiuscola");
         }
     }
 
-    private void checkDigits(String cf, int start, int end, String field) {
+    private void checkDigits(String cf, int start, int end, String field) throws InvalidFiscalCodeException {
         for (int i = start; i < end; i++) {
             if (!Character.isDigit(cf.charAt(i))) {
                 throw new InvalidFiscalCodeException(field + " deve contenere solo numeri");
@@ -100,7 +100,7 @@ public class FiscalCodeService {
         }
     }
 
-    private void checkMonth(char monthChar) {
+    private void checkMonth(char monthChar) throws InvalidFiscalCodeException {
         if (!MONTH_MAP.containsKey(monthChar)) {
             throw new InvalidFiscalCodeException(
                     "Carattere mese non valido nel codice fiscale: " + monthChar
@@ -108,7 +108,7 @@ public class FiscalCodeService {
         }
     }
 
-    private void checkDay(int day) {
+    private void checkDay(int day) throws InvalidFiscalCodeException {
         if (day < 1 || day > 71) {
             throw new InvalidFiscalCodeException(
                     "Giorno non valido nel codice fiscale: " + day

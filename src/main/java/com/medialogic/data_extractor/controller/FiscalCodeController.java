@@ -2,6 +2,7 @@ package com.medialogic.data_extractor.controller;
 
 import com.medialogic.data_extractor.dto.ErrorResponse;
 import com.medialogic.data_extractor.dto.FiscalCodeResponse;
+import com.medialogic.data_extractor.exception.InvalidFiscalCodeException;
 import com.medialogic.data_extractor.service.FiscalCodeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -65,7 +66,7 @@ public class FiscalCodeController {
                     example = "RSSMRA90E15H501X",
                     required = true
             )
-            @PathVariable String fiscalCode) {
+            @PathVariable String fiscalCode) throws InvalidFiscalCodeException {
         
         FiscalCodeResponse response = fiscalCodeService.extractDataFromFiscalCode(fiscalCode);
         return ResponseEntity.ok(response);
